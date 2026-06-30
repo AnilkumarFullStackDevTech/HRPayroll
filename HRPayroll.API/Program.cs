@@ -1,12 +1,11 @@
 using HRPayroll.Infrastructure.Context;
+using HRPayroll.Infrastructure.Interfaces;
+using HRPayroll.Infrastructure.Repositories;
+using HRPayroll.Services.Interfaces;
+using HRPayroll.Services.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // Add Controllers
 builder.Services.AddControllers();
@@ -22,9 +21,11 @@ builder.Services.AddDbContext<HRPayrollDbContext>(options =>
 // AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -38,4 +39,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
