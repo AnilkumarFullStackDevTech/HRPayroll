@@ -16,6 +16,12 @@ namespace HRPayroll.Services.Mappings
             CreateMap<Department, DepartmentDto>().ReverseMap();
 
             CreateMap<CreateDepartmentDto, Department>();
+
+            CreateMap<Employee, EmployeeDto>()
+                .ForMember(dest => dest.DepartmentName,
+                opt => opt.MapFrom(src => src.Department.DepartmentName));
+
+            CreateMap<CreateEmployeeDto, Employee>();
         }
     }
 }
